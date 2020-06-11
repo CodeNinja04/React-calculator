@@ -1,26 +1,67 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Result from './components/Result';
+import Buttons from "./components/Buttons";
+
+class App extends Component {
+    constructor(){
+        super();
+
+        this.state = {
+            result: ""
+        }
+    }
+
+    onClick = button => {
+
+        if(button === "="){
+            this.calculate()
+        }
+
+        else if(button === "C"){
+            this.reset()
+        }
+
+
+        else {
+            this.setState({
+                result: this.state.result + button
+            })
+        }
+    };
+
+
+    calculate = () => {
+        try {
+            this.setState({
+
+                result: (eval(this.state.result) || "" ) + ""
+            })
+        } catch (e) {
+            this.setState({
+                result: "error"
+            })
+
+        }
+    };
+
+    reset = () => {
+        this.setState({
+            result: ""
+        })
+    };
+      render() {
+          return (
+            <div className="body">
+                <div className="calculator-body" >
+                  <div className="test"><h1>  Calculator using React</h1></div>
+                  <Result result={this.state.result}/>
+                  <Buttons onClick={this.onClick}/>
+                </div>
+            </div>
+        );
+    }
 }
 
 export default App;
